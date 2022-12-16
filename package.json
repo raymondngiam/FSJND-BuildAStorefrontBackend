@@ -6,10 +6,12 @@
   "scripts": {
     "clean": "rm -rf ./dist",
     "build": "npm run clean && npx tsc",
+    "migrate-dev-up": "db-migrate --env dev up",
+    "migrate-dev-down": "db-migrate --env dev reset",
     "start": "nodemon src/server.ts",
     "test": "npm run build && jasmine ",
     "format": "prettier --config .prettierrc '**/*.ts' --write",
-    "lint": "eslint . --ext '.ts'"
+    "lint": "npm run format && eslint . --ext '.ts'"
   },
   "repository": {
     "type": "git",
