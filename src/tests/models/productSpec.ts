@@ -3,6 +3,7 @@ import { Product, ProductStore } from '../../models/product';
 const store = new ProductStore();
 
 describe('Model testing', () => {
+  let added_id = 0;
   describe('Product Model', () => {
     it('should have an index method', () => {
       expect(store.index).toBeDefined();
@@ -26,11 +27,10 @@ describe('Model testing', () => {
         price: '200'
       };
       const result = await store.create(p);
-      expect(result).toEqual({
-        id: 1,
-        name: 'sneaker',
-        price: '200'
-      });
+      expect(result.name).toEqual('sneaker');
+      expect(result.price).toEqual('200');
+
+      added_id = result.id as number;
     });
 
     it('index method should return a list of products', async () => {
@@ -39,16 +39,13 @@ describe('Model testing', () => {
     });
 
     it('show method should return the correct product', async () => {
-      const result = await store.show('1');
-      expect(result).toEqual({
-        id: 1,
-        name: 'sneaker',
-        price: '200'
-      });
+      const result = await store.show(String(added_id));
+      expect(result.name).toEqual('sneaker');
+      expect(result.price).toEqual('200');
     });
 
     it('delete method should remove the product', async () => {
-      await store.delete('1');
+      await store.delete(String(added_id));
       const result = await store.index();
 
       expect(result).toEqual([]);

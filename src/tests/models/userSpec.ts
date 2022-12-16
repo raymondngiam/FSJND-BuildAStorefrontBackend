@@ -3,6 +3,7 @@ import { User, UserStore } from '../../models/user';
 const store = new UserStore();
 
 describe('Model testing', () => {
+  let added_id = 0;
   describe('User Model', () => {
     it('should have an index method', () => {
       expect(store.index).toBeDefined();
@@ -32,6 +33,8 @@ describe('Model testing', () => {
       expect(result.first_name).toEqual('Katherine');
       expect(result.last_name).toEqual('Paterson');
       expect(result.password_digest).toBeDefined();
+
+      added_id = result.id as number;
     });
 
     it('index method should return a list of users', async () => {
@@ -40,7 +43,7 @@ describe('Model testing', () => {
     });
 
     it('show method should return the correct user', async () => {
-      const result = await store.show('1');
+      const result = await store.show(String(added_id));
       expect(result.username).toEqual('BridgetoTerabithia');
       expect(result.first_name).toEqual('Katherine');
       expect(result.last_name).toEqual('Paterson');
@@ -76,7 +79,7 @@ describe('Model testing', () => {
     });
 
     it('delete method should remove the user', async () => {
-      await store.delete('1');
+      await store.delete(String(added_id));
       const result = await store.index();
       expect(result).toEqual([]);
     });
