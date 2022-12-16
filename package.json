@@ -9,7 +9,7 @@
     "migrate-dev-up": "db-migrate --env dev up",
     "migrate-dev-down": "db-migrate --env dev reset",
     "start": "export ENV=dev && nodemon src/server.ts",
-    "test": "npm run build && jasmine ",
+    "test": "export ENV=test && npm run build && db-migrate --env test up && jasmine ; db-migrate --env test reset",
     "format": "prettier --config .prettierrc '**/*.ts' --write",
     "lint": "npm run format && eslint . --ext '.ts'"
   },
