@@ -31,8 +31,8 @@ describe('Model testing', () => {
     });
     afterAll(async () => {
       console.log('Tear Down:');
-      await userStore.delete('1');
-      await productStore.delete('1');
+      await userStore.delete(String(added_user_id));
+      await productStore.delete(String(added_product_id));
     });
     it('should have an index method', () => {
       expect(orderStore.index).toBeDefined();
