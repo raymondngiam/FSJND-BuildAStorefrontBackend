@@ -3,40 +3,89 @@ The company stakeholders want to create an online storefront to showcase their g
 
 These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application. 
 
+---
+
 ## API Endpoints
 #### Products
-- Index 
-- Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products 
-- [OPTIONAL] Products by category (args: product category)
+- Index: `[GET] '/products' `
+- Show: `[GET] '/products/:id'`
+- Create: `[POST] '/products'` **[token required]**
+- Delete: `[DELETE] '/products'` **[token required]**
+- Top 5 most popular products: `[GET] '/five-most-popular'`
 
 #### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index: `[GET] '/users'` **[token required]**
+- Show: `[GET] '/users/:id'` **[token required]**
+- Create: `[POST] '/users'` **[token required]**
+- Delete: `[DELETE] '/users'` **[token required]**
+- Authenticate: `[POST] '/users/authenticate'`
 
 #### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+- Index: `[GET] '/orders'` **[token required]**
+- Show: `[GET] '/orders/:id'` **[token required]**
+- Create: `[POST] '/orders'` **[token required]**
+- Delete: `[DELETE] '/orders'` **[token required]**
+- Current Order by user `[GET] '/orders/current/:user_id'` **[token required]**
+
+---
 
 ## Data Shapes
 #### Product
 -  id
 - name
 - price
-- [OPTIONAL] category
+
+```sql
+CREATE TABLE products(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    price NUMERIC NOT NULL
+);
+```
 
 #### User
 - id
-- firstName
-- lastName
-- password
+- username
+- first_name
+- last_name
+- password_digest
+
+```sql
+CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    password_digest VARCHAR(100) NOT NULL
+);
+```
 
 #### Orders
 - id
-- id of each product in the order
-- quantity of each product in the order
 - user_id
 - status of order (active or complete)
 
+```sql
+CREATE TYPE orderStatusType AS ENUM ('active', 'complete');
+
+CREATE TABLE orders(
+    id SERIAL PRIMARY KEY,
+    user_id bigint REFERENCES users(id),
+    status orderStatusType NOT NULL
+);
+```
+
+#### OrderProducts
+- id
+- order_id
+- product_id
+- quantity
+
+```sql
+CREATE TABLE order_products (
+    id SERIAL PRIMARY KEY,
+    order_id bigint REFERENCES orders(id),
+    product_id bigint REFERENCES products(id),
+    quantity integer DEFAULT 1
+);
+```
