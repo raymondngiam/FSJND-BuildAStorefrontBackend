@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import userRoutes from './handlers/users';
+import productRoutes from './handlers/products';
 
 const app = express();
 const port = 3000;
@@ -17,6 +18,7 @@ app.get('/', (req: express.Request, res: express.Response): void => {
 });
 
 userRoutes(app);
+productRoutes(app);
 
 app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
