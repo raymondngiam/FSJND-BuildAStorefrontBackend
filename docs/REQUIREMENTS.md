@@ -11,7 +11,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Show: `[GET] '/products/:id'`
 - Create: `[POST] '/products'` **[token required]**
 - Delete: `[DELETE] '/products'` **[token required]**
-- Top 5 most popular products: `[GET] '/five-most-popular'`
+- Top 5 most popular products: `[GET] '/products/five-most-popular'`
 
 #### Users
 - Index: `[GET] '/users'` **[token required]**
@@ -25,6 +25,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Show: `[GET] '/orders/:id'` **[token required]**
 - Create: `[POST] '/orders'` **[token required]**
 - Delete: `[DELETE] '/orders'` **[token required]**
+- Add product to order: `[POST] '/orders/:id/products'` **[token required]**
 - Current Order by user `[GET] '/orders/current/:user_id'` **[token required]**
 
 ---
