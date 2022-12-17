@@ -39,7 +39,7 @@ describe('Model testing', () => {
 
     it('index method should return a list of users', async () => {
       const result = await store.index();
-      expect(result).toHaveSize(1);
+      expect(result).toHaveSize(2);   // users table has initial entry for admin user 
     });
 
     it('show method should return the correct user', async () => {
@@ -81,7 +81,7 @@ describe('Model testing', () => {
     it('delete method should remove the user', async () => {
       await store.delete(String(added_id));
       const result = await store.index();
-      expect(result).toEqual([]);
+      expect(result).toHaveSize(1);   // users table has initial entry for admin user 
     });
   });
 });
