@@ -1,8 +1,10 @@
 import express, { Request, Response } from 'express';
 import { Order, OrderStore } from '../models/order';
+import { DashboardQueries } from '../services/dashboard';
 import { verifyAuthToken } from '../middlewares/verifyAuthToken';
 
 const store = new OrderStore();
+const dashboardQueries = new DashboardQueries();
 
 const index = async (_req: Request, res: Response) => {
   const orders = await store.index();
@@ -53,12 +55,28 @@ const addProduct = async (_req: Request, res: Response) => {
   }
 };
 
+const userCurrentOrder = async (req: Request, res: Response) => {
+  try {
+    const userId = parseInt(req.params.user_id);
+    const result = await dashboardQueries.userCurrentOrder(userId);
+    res.json(result);
+  } catch (error) {
+    res.status(400);
+    res.json({ error });
+  }
+};
+
 const orderRoutes = (app: express.Application) => {
   app.get('/orders', verifyAuthToken, index);
   app.get('/orders/:id', verifyAuthToken, show);
   app.post('/orders', verifyAuthToken, create);
   app.delete('/orders', verifyAuthToken, destroy);
   app.post('/orders/:id/products', verifyAuthToken, addProduct);
+  app.get(
+    '/orders/dashboard/user-current/:user_id',
+    verifyAuthToken,
+    userCurrentOrder
+  );
 };
 
 export default orderRoutes;

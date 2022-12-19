@@ -1,8 +1,10 @@
 import express, { Request, Response } from 'express';
 import { Product, ProductStore } from '../models/product';
+import { DashboardQueries } from '../services/dashboard';
 import { verifyAuthToken } from '../middlewares/verifyAuthToken';
 
 const store = new ProductStore();
+const dashboardQueries = new DashboardQueries();
 
 const index = async (_req: Request, res: Response) => {
   const orders = await store.index();
@@ -39,11 +41,22 @@ const destroy = async (req: Request, res: Response) => {
   }
 };
 
+const popular = async (req: Request, res: Response) => {
+  try {
+    const result = await dashboardQueries.fiveMostPopular();
+    res.json(result);
+  } catch (error) {
+    res.status(400);
+    res.json({ error });
+  }
+};
+
 const productRoutes = (app: express.Application) => {
   app.get('/products', index);
   app.get('/products/:id', show);
   app.post('/products', verifyAuthToken, create);
   app.delete('/products', verifyAuthToken, destroy);
+  app.get('/products/dashboard/five-most-popular', popular);
 };
 
 export default productRoutes;
