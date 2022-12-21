@@ -15,6 +15,9 @@ let added_user_id = 0;
 let added_order_id = 0;
 const added_product_ids: Dictionary<number> = {};
 
+const items = ['item1', 'item2', 'item3', 'item4', 'item5', 'item6'];
+const quantities = [1, 2, 3, 4, 5, 6];
+
 async function StageDatabase(
   added_user_id: number,
   added_product_ids: Dictionary<number>,
@@ -28,8 +31,6 @@ async function StageDatabase(
   };
   const stagedUser = await userStore.create(user);
   added_user_id = stagedUser.id as number;
-
-  const items = ['item1', 'item2', 'item3', 'item4', 'item5', 'item6'];
 
   await Promise.all(
     items.map(async (x, i) => {
@@ -54,7 +55,6 @@ async function StageDatabase(
   added_order_id = stagedOrder.id as number;
   console.log(`Done staging order ${added_order_id}`);
 
-  const quantities = [1, 2, 3, 4, 5, 6];
   const pairs: [number, number][] = [];
   await Promise.all(
     quantities.map((_, i) => {
@@ -128,6 +128,11 @@ describe('Service testing', () => {
       expect(result[2].name).toEqual('item4');
       expect(result[3].name).toEqual('item3');
       expect(result[4].name).toEqual('item2');
+    });
+    it("userCurrentOrder method should return a list of products in user's active orders", async () => {
+      const userId = added_user_id;
+      const result = await dashboardQueries.userCurrentOrder(userId);
+      expect(result).toHaveSize(items.length);
     });
   });
 });
