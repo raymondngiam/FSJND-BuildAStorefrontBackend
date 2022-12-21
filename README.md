@@ -2,6 +2,14 @@
 
 ---
 
+#### How to build
+
+```shell
+$ git clone https://github.com/raymondngiam/FSJND-BuildAStorefrontBackend.git
+$ cd FSJND-BuildAStorefrontBackend
+$ npm install
+```
+
 #### Setup database
 
 1. Start a terminal and change user to `postgres`
@@ -78,3 +86,10 @@
     ```shell
     $ db-migrate --env dev reset
     ```
+
+#### How to run test and start up the server
+
+```shell
+$ npm run test
+$ node dist/server.js
+```
