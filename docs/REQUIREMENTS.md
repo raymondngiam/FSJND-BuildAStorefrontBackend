@@ -16,7 +16,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 #### Users
 - Index: `[GET] '/users'` **[token required]**
 - Show: `[GET] '/users/:id'` **[token required]**
-- Create: `[POST] '/users'` **[token required]**
+- Create: `[POST] '/users'`
 - Delete: `[DELETE] '/users'` **[token required]**
 - Authenticate: `[POST] '/users/authenticate'`
 

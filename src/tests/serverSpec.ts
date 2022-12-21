@@ -127,15 +127,12 @@ describe('Test users endpoint responses', () => {
     expect(response.status).toBe(200);
   });
   it("should post to the '/users' endpoint", async () => {
-    const response = await request
-      .post('/users')
-      .send({
-        username: 'test_user',
-        first_name: 'test_user',
-        last_name: 'test_user',
-        password: 'test_password'
-      })
-      .set('Authorization', 'Bearer ' + token);
+    const response = await request.post('/users').send({
+      username: 'test_user',
+      first_name: 'test_user',
+      last_name: 'test_user',
+      password: 'test_password'
+    });
     expect(response.status).toBe(200);
     console.log(`${response.body}`);
   });

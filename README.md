@@ -8,6 +8,7 @@
 $ git clone https://github.com/raymondngiam/FSJND-BuildAStorefrontBackend.git
 $ cd FSJND-BuildAStorefrontBackend
 $ npm install
+$ npm run build
 ```
 
 #### Setup database
