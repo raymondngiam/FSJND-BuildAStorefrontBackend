@@ -13,7 +13,14 @@ $ npm run build
 
 #### Setup database
 
-1. Start a terminal and change user to `postgres`
+1. Default installation of PostgreSQL would be running at the TCP/IP address of `127.0.0.1:5432`. This can be verified with the following bash command:
+
+    ```shell
+    $ sudo netstat -plunt | grep postgres
+    tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      991/postgres 
+    ```
+
+1. To setup the database for this application, first start a terminal and change user to `postgres`. 
 
     ```shell
     $ sudo -iu postgres
