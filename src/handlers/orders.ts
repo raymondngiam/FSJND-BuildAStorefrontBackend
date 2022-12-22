@@ -7,13 +7,23 @@ const store = new OrderStore();
 const dashboardQueries = new DashboardQueries();
 
 const index = async (_req: Request, res: Response) => {
-  const orders = await store.index();
-  res.json(orders);
+  try {
+    const orders = await store.index();
+    res.json(orders);
+  } catch (err) {
+    res.status(400);
+    res.json({ err });
+  }
 };
 
 const show = async (_req: Request, res: Response) => {
-  const order = await store.show(_req.params.id);
-  res.json(order);
+  try {
+    const order = await store.show(_req.params.id);
+    res.json(order);
+  } catch (err) {
+    res.status(400);
+    res.json({ err });
+  }
 };
 
 const create = async (req: Request, res: Response) => {
@@ -27,7 +37,7 @@ const create = async (req: Request, res: Response) => {
     res.json(newOrder);
   } catch (err) {
     res.status(400);
-    res.json(err);
+    res.json({ err });
   }
 };
 
@@ -35,23 +45,23 @@ const destroy = async (req: Request, res: Response) => {
   try {
     const deleted = await store.delete(req.body.id);
     res.json(deleted);
-  } catch (error) {
+  } catch (err) {
     res.status(400);
-    res.json({ error });
+    res.json({ err });
   }
 };
 
 const addProduct = async (_req: Request, res: Response) => {
-  const orderId: string = _req.params.id;
-  const productId: string = _req.body.productId;
-  const quantity: number = parseInt(_req.body.quantity);
-
   try {
+    const orderId: string = _req.params.id;
+    const productId: string = _req.body.productId;
+    const quantity: number = parseInt(_req.body.quantity);
+
     const addedProduct = await store.addProduct(quantity, orderId, productId);
     res.json(addedProduct);
   } catch (err) {
     res.status(400);
-    res.json(err);
+    res.json({ err });
   }
 };
 
@@ -60,9 +70,9 @@ const userCurrentOrder = async (req: Request, res: Response) => {
     const userId = parseInt(req.params.user_id);
     const result = await dashboardQueries.userCurrentOrder(userId);
     res.json(result);
-  } catch (error) {
+  } catch (err) {
     res.status(400);
-    res.json({ error });
+    res.json({ err });
   }
 };
 

@@ -7,13 +7,23 @@ const store = new ProductStore();
 const dashboardQueries = new DashboardQueries();
 
 const index = async (_req: Request, res: Response) => {
-  const orders = await store.index();
-  res.json(orders);
+  try {
+    const orders = await store.index();
+    res.json(orders);
+  } catch (err) {
+    res.status(400);
+    res.json({ err });
+  }
 };
 
 const show = async (_req: Request, res: Response) => {
-  const product = await store.show(_req.params.id);
-  res.json(product);
+  try {
+    const product = await store.show(_req.params.id);
+    res.json(product);
+  } catch (err) {
+    res.status(400);
+    res.json({ err });
+  }
 };
 
 const create = async (req: Request, res: Response) => {
@@ -27,7 +37,7 @@ const create = async (req: Request, res: Response) => {
     res.json(newProduct);
   } catch (err) {
     res.status(400);
-    res.json(err);
+    res.json({ err });
   }
 };
 
@@ -35,9 +45,9 @@ const destroy = async (req: Request, res: Response) => {
   try {
     const deleted = await store.delete(req.body.id);
     res.json(deleted);
-  } catch (error) {
+  } catch (err) {
     res.status(400);
-    res.json({ error });
+    res.json({ err });
   }
 };
 
@@ -45,9 +55,9 @@ const popular = async (req: Request, res: Response) => {
   try {
     const result = await dashboardQueries.fiveMostPopular();
     res.json(result);
-  } catch (error) {
+  } catch (err) {
     res.status(400);
-    res.json({ error });
+    res.json({ err });
   }
 };
 
